@@ -3,4 +3,5 @@
     <string name="home_heading">Search for a character</string>
     <string name="kanji_search_hint">Enter a phrase…</string>
     <string name="add_phrase_button">Add</string>
+    <string name="submit_phrases_button">Submit phrases</string>
 </resources>
