@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity
 {
+    private static final String TAG = HomeActivity.class.getSimpleName();
+
     private EditText phraseTextBox;
     private Button addPhrase, submit;
     private FlexboxLayout phraseContainerLayout;
@@ -48,8 +50,8 @@ public class HomeActivity extends AppCompatActivity
                 selectedPhrases.add(phrase);
                 addPhraseToPhraseBox(phrase);
                 phraseTextBox.setText("");
-                Log.d("HomeActivity", "Added a new phrase: \"" + phrase + "\"");
-                Log.d("HomeActivity", "The list of active phrases is now: " + selectedPhrases.toString());
+                Log.d(TAG, "Added a new phrase: \"" + phrase + "\"");
+                Log.d(TAG, "The list of active phrases is now: " + selectedPhrases.toString());
             }
         });
         // TODO: Add enter key listener to EditText
@@ -80,8 +82,8 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View view) {
                 phraseRoot.setVisibility(View.GONE);
                 selectedPhrases.remove(phrase);
-                Log.d("HomeActivity", "Removed a phrase: \"" + phrase + "\"");
-                Log.d("HomeActivity", "The list of active phrases is now: " + selectedPhrases.toString());
+                Log.d(TAG, "Removed a phrase: \"" + phrase + "\"");
+                Log.d(TAG, "The list of active phrases is now: " + selectedPhrases.toString());
             }
         }.init(phraseRoot));
         phraseRoot.addView(phraseDeleteImage);

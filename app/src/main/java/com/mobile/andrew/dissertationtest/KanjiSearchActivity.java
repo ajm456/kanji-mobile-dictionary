@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class KanjiSearchActivity extends AppCompatActivity
 {
-    private static final String TAG = "KanjiSearchActivity";
+    private static final String TAG = KanjiSearchActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
