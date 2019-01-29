@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
+import com.mobile.andrew.dissertationtest.csv.KanjiData;
 import com.mobile.andrew.dissertationtest.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -32,8 +33,14 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         // Load database
+        /*
         DatabaseHelper dbHelper = DatabaseHelper.getInstance(this);
         dbHelper.createDatabase();
+        */
+
+        // Load from CSV
+        KanjiData data = KanjiData.getInstance(this);
+        Log.d(TAG, data.dictToString());
 
         setContentView(R.layout.activity_main);
 

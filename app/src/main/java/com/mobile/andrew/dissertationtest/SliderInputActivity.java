@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.mobile.andrew.dissertationtest.csv.KanjiData;
 import com.mobile.andrew.dissertationtest.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -42,11 +43,11 @@ public class SliderInputActivity extends AppCompatActivity
         sbComplexity = findViewById(R.id.seekbar_sliderinput_complexity);
         sbCurviness = findViewById(R.id.seekbar_sliderinput_curviness);
         sbSymmetricity = findViewById(R.id.seekbar_sliderinput_symmetricity);
+        //TODO: Consider getting rid of button and just querying when sliders change
         Button btnSubmit = findViewById(R.id.button_sliderinput_submit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Convert sliders into scores and perform DB query
                 sbComplexity = findViewById(R.id.seekbar_sliderinput_complexity);
                 sbCurviness = findViewById(R.id.seekbar_sliderinput_curviness);
                 sbSymmetricity = findViewById(R.id.seekbar_sliderinput_symmetricity);
@@ -55,9 +56,15 @@ public class SliderInputActivity extends AppCompatActivity
                 float curvinessScore = sbCurviness.getProgress() / 10.0f;
                 float symmetricityScore = sbSymmetricity.getProgress() / 10.0f;
 
+                /*
                 DatabaseHelper db = DatabaseHelper.getInstance(SliderInputActivity.this);
                 ArrayList<Character> results = db.queryKanjiWithScores(complexityScore, curvinessScore, symmetricityScore, searchTolerance);
                 Log.d(TAG, "Querying database with scores: (" + complexityScore + ", " + curvinessScore + ", " + symmetricityScore + ")");
+                Log.d(TAG, results.toString());
+                */
+
+                KanjiData dict = KanjiData.getInstance(SliderInputActivity.this);
+                ArrayList<Character> results = dict.queryDict(new Float[] {complexityScore, curvinessScore, symmetricityScore, -1f, -1f}, searchTolerance);
                 Log.d(TAG, results.toString());
             }
         });
@@ -69,7 +76,9 @@ public class SliderInputActivity extends AppCompatActivity
                 float curvinessScore = sbCurviness.getProgress() / 10.0f;
                 float symmetricityScore = sbSymmetricity.getProgress() / 10.0f;
 
-                DatabaseHelper db = DatabaseHelper.getInstance(SliderInputActivity.this);
+                KanjiData dict = KanjiData.getInstance(SliderInputActivity.this);
+                ArrayList<Character> results = dict.queryDict(new Float[] {complexityScore, curvinessScore, symmetricityScore, -1f, -1f}, searchTolerance);
+                Log.d(TAG, results.toString());
 
             }
 
