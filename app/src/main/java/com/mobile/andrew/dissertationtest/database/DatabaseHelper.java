@@ -1,6 +1,7 @@
 package com.mobile.andrew.dissertationtest.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -14,13 +15,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLInput;
+import java.util.ArrayList;
 
 /**
  * Standard Android database helper class. Obeys the singleton design pattern.
  */
 public class DatabaseHelper extends SQLiteOpenHelper
 {
-    private static final String TAG = "DatabaseHelper";
+    private static final String TAG = DatabaseHelper.class.getSimpleName();
 
     private static DatabaseHelper instance;
 
@@ -36,6 +38,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
         super(context, DB_NAME, null, 1);
         DB_PATH = context.getDatabasePath(DB_NAME).getPath();
     }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {}
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
     /**
      * Standard singleton instance provider.
@@ -64,16 +72,47 @@ public class DatabaseHelper extends SQLiteOpenHelper
             // By calling this method an empty database will be created into the default system
             // path of your application so we can overwrite that with our database
             Log.d(TAG, "Database does not exist! Copying data across");
-            this.getReadableDatabase();
+            getReadableDatabase();
             copyDatabase();
         }
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {}
+    public ArrayList<Character> queryKanjiWithScores(float complexity, float curviness, float symmetricity, float tolerance) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Character> result = new ArrayList<Character>();
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+        String selection = "Complexity BETWEEN ? AND ? AND " +
+                "Curviness BETWEEN ? AND ? AND " +
+                "Symmetricity BETWEEN ? AND ?";
+
+        String[] selectionArgs = {
+                Float.toString(complexity - tolerance), Float.toString(curviness + tolerance),
+                Float.toString(curviness - tolerance), Float.toString(curviness + tolerance),
+                Float.toString(symmetricity - tolerance), Float.toString(symmetricity + tolerance)
+        };
+
+        Cursor cursor = db.query(
+                "Kanji",
+                new String[] { "Character" },
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while(cursor.moveToNext()) {
+            String strKanji = cursor.getString(0);
+            if(strKanji.length() > 1) {
+                Log.e(TAG, "Fatal error! Got kanji character with length of more than 1 character from database!");
+                System.exit(-1);
+            }
+            char kanji = strKanji.charAt(0);
+            result.add(kanji);
+        }
+
+        return result;
+    }
 
     /**
      * Checks to see whether or not a database file is present in device storage.

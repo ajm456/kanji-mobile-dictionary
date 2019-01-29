@@ -92,8 +92,13 @@ public class HomeActivity extends AppCompatActivity
     }
 
     public void submitPhrases(View view) {
+        /*
         Intent intent = new Intent(this, KanjiSearchActivity.class);
         intent.putStringArrayListExtra("phrases", selectedPhrases);
+        startActivity(intent);
+        */
+        Intent intent = new Intent(this, SliderInputActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
         startActivity(intent);
     }
 }
