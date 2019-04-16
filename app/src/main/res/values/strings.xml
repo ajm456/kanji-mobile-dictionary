@@ -5,8 +5,62 @@
     <string name="add_phrase_button">Add</string>
     <string name="submit_phrases_button">Submit phrases</string>
 
-    <!-- SliderInput screen strings -->
-    <string name="sliderinput_min_value">0</string>
-    <string name="sliderinput_max_value">10</string>
-    <string name="sliderinput_placeholder_value">err</string>
+    <!-- HomeActivity -->
+    <string name="sliderinput_toolbartitle">Search for a kanji</string>
+    <string name="sliderinput_complexity_min_value">simple</string>
+    <string name="sliderinput_complexity_max_value">complex</string>
+    <string name="sliderinput_symm_min_value">non-symmetrical</string>
+    <string name="sliderinput_symm_max_value">symmetrical</string>
+    <string name="sliderinput_curvy_min_value">straight lines</string>
+    <string name="sliderinput_curvy_max_value">curvy lines</string>
+    <string name="sliderinput_noresults">No results</string>
+    <string name="sliderinput_viewmorelink"><u>View more</u></string>
+    <string name="sliderinput_menuItem_calibrate">Calibrate search</string>
+    <string name="sliderinput_numresults">Showing %d result(s)</string>
+    <string name="sliderinput_tolerance">Search width</string>
+    <string name="sliderinput_fullscreenarrow">\u2191</string>
+    <string name="sliderinput_minimisearrow">\u2193</string>
+
+    <!-- KanjiDetailsActivity -->
+    <string name="kanjiresults_toolbartitle">Details</string>
+    <string name="kanjiresults_kunReadingsLabel">Kun reading(s)</string>
+    <string name="kanjiresults_onReadingsLabel">On reading(s)</string>
+    <string name="kanjiresults_numStrokesLabel">Number of strokes</string>
+    <string name="kanjiresults_jlptLevelLabel">JLPT Level</string>
+    <string name="kanjiresults_valueLoading"><i>Loading...</i></string>
+    <string name="kanjiresults_jishoLink"><i>Example sentences, stroke ordering, etc. (opens browser)</i></string>
+
+    <!-- FavouritesActivity -->
+    <string name="favourites_title">Your favourited kanji</string>
+
+    <!-- CalibrationActivity -->
+    <string name="calibrate_title">How would you describe this character?</string>
+    <string name="calibrate_complexitylabel">Complexity</string>
+    <string name="calibrate_symmetricitylabel">Symmetricity</string>
+    <string name="calibrate_diagonalitylabel">Diagonality</string>
+    <string name="calibrate_nextbuttonlabel">Next</string>
+    <string name="calibrate_backbuttonlabel">Back</string>
+    <string name="calibrate_complexitytooltip">
+        Complexity is to do with how difficult you think the character would be to draw.
+        For example, 一 would be as far from complex as you could possibly get,
+        whereas 飲 would score much higher due to its densely-packed lines and variety of
+        stroke directions.
+    </string>
+    <string name="calibrate_symmetricitytooltip">
+        Symmetricity refers to how symmetrical the character is around vertical and horizontal
+        \"mirrors\". For example, 十 is perfectly symmetrical in both the vertical and horizontal
+        directions, so would be scored at the maximum value, whereas 週 doesn\'t have symmetry in
+        any direction. Some characters, such as 男, are fairly close to being symmetrical, so are
+        scored somewhere in the middle.
+    </string>
+    <string name="calibrate_diagonalitytooltip">
+        Diagonality refers to the type of lines used to write the character, specifically whether
+        they are mostly in a diagonal direction as opposed to horizontal or vertical. For example,
+        目 scores zero on diagonality as all its lines are horizontal or vertical, whereas 父 scores
+        the maximum.
+    </string>
+
+    <!-- Misc -->
+    <string name="misc_csvPath">kanji.csv</string>
+    <string name="dictservice_description">Background service to save data for Kanji Dictionary app</string>
 </resources>

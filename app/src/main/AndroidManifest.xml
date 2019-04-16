@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mobile.andrew.dissertationtest">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application android:name="com.mobile.andrew.dissertationtest.App"
         android:allowBackup="false"
@@ -13,23 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".HomeActivity">
+
+        <activity android:name=".CalibrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".KanjiSearchActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                       android:resource="@xml/searchable"/>
-        </activity>
+        <activity android:name=".HomeActivity"/>
 
-        <activity android:name=".SliderInputActivity" />
+        <activity android:name=".KanjiDetailsActivity" />
+
+        <activity android:name=".FavouritesActivity" />
+
+        <service android:name=".db.DictToStorageService"
+            android:exported="false"
+            android:description="@string/dictservice_description"/>
     </application>
 
 </manifest>
