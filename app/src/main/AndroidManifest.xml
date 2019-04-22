@@ -26,10 +26,6 @@
         <activity android:name=".KanjiDetailsActivity" />
 
         <activity android:name=".FavouritesActivity" />
-
-        <service android:name=".db.DictToStorageService"
-            android:exported="false"
-            android:description="@string/dictservice_description"/>
     </application>
 
 </manifest>

@@ -3,29 +3,30 @@ package com.mobile.andrew.dissertationtest;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mobile.andrew.dissertationtest.db.KanjiData;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.mobile.andrew.dissertationtest.room.KanjiData;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class KanjiResultsAdapter extends RecyclerView.Adapter<KanjiResultsAdapter.KanjiViewHolder>
+public class KanjiListAdapter extends RecyclerView.Adapter<KanjiListAdapter.KanjiViewHolder>
 {
-    private final String TAG = KanjiResultsAdapter.class.getSimpleName();
+    private final String TAG = KanjiListAdapter.class.getSimpleName();
 
     private Activity parentActivity;
 
-    private ArrayList<KanjiData> kanjiData;
-    private static Float[] searchScores;
+    private List<KanjiData> kanjiData;
+    private static float[] searchScores;
 
     class KanjiViewHolder extends RecyclerView.ViewHolder
     {
@@ -43,9 +44,9 @@ public class KanjiResultsAdapter extends RecyclerView.Adapter<KanjiResultsAdapte
 
         void bind(final KanjiData kanjiData) {
             // Fill the display fields
-            tvKanji.setText(String.valueOf(kanjiData.kanji));
-            tvMeanings.setText(TextUtils.join(", ", kanjiData.meanings));
-            for(String kunReading : kanjiData.kunReadings) {
+            tvKanji.setText(String.valueOf(kanjiData.character));
+            tvMeanings.setText(TextUtils.join(", ", kanjiData.getMeaningsArr()));
+            for(String kunReading : kanjiData.getKunReadingsArr()) {
                 TextView reading = new TextView(App.getContext());
                 reading.setText(kunReading);
                 FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -55,7 +56,7 @@ public class KanjiResultsAdapter extends RecyclerView.Adapter<KanjiResultsAdapte
                 reading.setTextColor(ContextCompat.getColor(App.getContext(), R.color.white));
                 flReadingsHolder.addView(reading);
             }
-            for(String onReading : kanjiData.onReadings) {
+            for(String onReading : kanjiData.getOnReadingsArr()) {
                 TextView reading = new TextView(App.getContext());
                 reading.setText(onReading);
                 FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -85,23 +86,24 @@ public class KanjiResultsAdapter extends RecyclerView.Adapter<KanjiResultsAdapte
         }
     }
 
-    KanjiResultsAdapter(ArrayList<KanjiData> kanjiData, Float[] searchScores, Activity activity) {
-        this.kanjiData = kanjiData;
-        KanjiResultsAdapter.searchScores = searchScores;
-        this.parentActivity = activity;
+    KanjiListAdapter(Activity parentActivity) {
+        this.parentActivity = parentActivity;
+        kanjiData = new ArrayList<>();
     }
 
-    void updateData(ArrayList<KanjiData> newKanjiData, Float[] newSearchScores) {
-        Log.d(TAG, "Started updating data!");
+    public void updateData(List<KanjiData> newKanjiData, float[] newSearchScores) {
         kanjiData.clear();
         kanjiData.addAll(newKanjiData);
         notifyDataSetChanged();
         searchScores = newSearchScores;
-        Log.d(TAG, "Finished updating data!");
+    }
+
+    public KanjiData getItem(int position) {
+        return kanjiData.get(position);
     }
 
     @Override
-    public KanjiResultsAdapter.KanjiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public KanjiListAdapter.KanjiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new KanjiViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_searchresult, parent, false));
     }

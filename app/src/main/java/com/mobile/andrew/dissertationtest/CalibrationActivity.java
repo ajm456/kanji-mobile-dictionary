@@ -7,11 +7,7 @@ import android.animation.ValueAnimator;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -20,9 +16,13 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.mobile.andrew.dissertationtest.db.DatabaseContract;
-import com.mobile.andrew.dissertationtest.db.DatabaseHelper;
-import com.mobile.andrew.dissertationtest.db.KanjiDictionary;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.mobile.andrew.dissertationtest.room.AppDatabase;
+import com.mobile.andrew.dissertationtest.room.KanjiData;
+
+import java.util.List;
 
 public class CalibrationActivity extends AppCompatActivity
 {
@@ -65,7 +65,7 @@ public class CalibrationActivity extends AppCompatActivity
         }
     }
 
-    private static final Character[] CALIBRATION_CHARACTERS = { '十', '山' };
+    private static final String[] CALIBRATION_CHARACTERS = { "十", "山" };
 
     private ConstraintLayout clRoot;
     private TextView tvCharacter, tvTooltip;
@@ -93,9 +93,6 @@ public class CalibrationActivity extends AppCompatActivity
                 finishAfterTransition();
             } else {
                 setContentView(R.layout.activity_calibration);
-
-                // Load kanji data from database into dictionary
-                KanjiDictionary.loadDatabaseIntoDict(this);
 
                 initUi();
             }
@@ -168,37 +165,48 @@ public class CalibrationActivity extends AppCompatActivity
                 float symmVal = sbSymmetricity.getProgress() / 10f;
                 float diagVal = sbDiagonality.getProgress() / 10f;
 
-                // Grab the current database scores for each character
-                SQLiteDatabase db = new DatabaseHelper(CalibrationActivity.this).getReadableDatabase();
-                String[] columns = { DatabaseContract.COLUMN_NAME_COMPLEXITY, DatabaseContract.COLUMN_NAME_SYMM, DatabaseContract.COLUMN_NAME_DIAG };
-                String where = DatabaseContract.COLUMN_NAME_CHARACTER + " LIKE ?";
-                String[] selectionArgs = { CALIBRATION_CHARACTERS[characterNumber].toString() };
-                Cursor cursor = db.query(
-                        DatabaseContract.TABLE_NAME,
-                        columns,
-                        where,
-                        selectionArgs,
-                        null,
-                        null,
-                        null
-                );
-                cursor.moveToNext();
-                float actualComplexity = cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_COMPLEXITY));
-                float actualSymm = cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_SYMM));
-                float actualDiag = cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_DIAG));
-                cursor.close();
-                db.close();
+                // Grab the current database scores for the character
+                AppDatabase db = AppDatabase.getInstance();
+                float[] actualScores = db.kanjiDao().getScore(CALIBRATION_CHARACTERS[characterNumber]).get(0).toFloatArray();
 
-                // Calculate the adjust value
-                float[] adjust = new float[3];
-                adjust[0] = (complexityVal - actualComplexity) * dampening;
-                adjust[1] = (symmVal - actualSymm) * dampening;
-                adjust[2] = (diagVal - actualDiag) * dampening;
+                // Calculate the difference vector
+                float[] diff = new float[] {
+                        (complexityVal - actualScores[0]) * dampening,
+                        (symmVal - actualScores[1]) * dampening,
+                        (diagVal - actualScores[2]) * dampening
+                };
 
-                // Update the dictionary scores
-                if(!HomeActivity.PRESERVE_DICTIONARY) {
-                    KanjiDictionary.getInstance().improveDictScores(adjust, CALIBRATION_CHARACTERS[characterNumber], dampening);
+                // Get the current database values
+                List<KanjiData> allUsers = db.kanjiDao().getAll();
+                // Update the scores of each row, clamping within the range 0-1
+                for(int i = 0; i < allUsers.size(); i++) {
+                    if(allUsers.get(i).complexity + diff[0] > 1f) {
+                        allUsers.get(i).complexity = 1f;
+                    } else if(allUsers.get(i).complexity + diff[0] < 0f) {
+                        allUsers.get(i).complexity = 0f;
+                    } else {
+                        allUsers.get(i).complexity += diff[0];
+                    }
+
+                    if(allUsers.get(i).symmetricity + diff[1] > 1f) {
+                        allUsers.get(i).symmetricity = 1f;
+                    } else if(allUsers.get(i).symmetricity + diff[1] < 0f) {
+                        allUsers.get(i).symmetricity = 0f;
+                    } else {
+                        allUsers.get(i).symmetricity += diff[1];
+                    }
+
+                    if(allUsers.get(i).diagonality + diff[2] > 1f) {
+                        allUsers.get(i).diagonality = 1f;
+                    } else if(allUsers.get(i).diagonality + diff[2] < 0f) {
+                        allUsers.get(i).diagonality = 0f;
+                    } else {
+                        allUsers.get(i).diagonality += diff[2];
+                    }
                 }
+
+                // Insert the updated list back into the database
+                db.kanjiDao().insertAll(allUsers);
 
                 // If at the final character, start the main activity
                 if(characterNumber == CALIBRATION_CHARACTERS.length - 1) {

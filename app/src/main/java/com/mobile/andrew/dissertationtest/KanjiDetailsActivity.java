@@ -4,17 +4,21 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mobile.andrew.dissertationtest.db.KanjiData;
-import com.mobile.andrew.dissertationtest.db.KanjiDictionary;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.mobile.andrew.dissertationtest.asyncTasks.FeedbackCalibrationParams;
+import com.mobile.andrew.dissertationtest.asyncTasks.FeedbackCalibrationTask;
+import com.mobile.andrew.dissertationtest.asyncTasks.UpdateFavouritedParams;
+import com.mobile.andrew.dissertationtest.asyncTasks.UpdateFavouritedTask;
+import com.mobile.andrew.dissertationtest.room.AppDatabase;
+import com.mobile.andrew.dissertationtest.room.KanjiData;
 
 import java.util.Locale;
 
@@ -23,7 +27,6 @@ public class KanjiDetailsActivity extends AppCompatActivity
     private static final String TAG = KanjiDetailsActivity.class.getSimpleName();
 
     private KanjiData kanjiData;
-    private Menu menu;
     private boolean favourited;
 
     @Override
@@ -38,21 +41,23 @@ public class KanjiDetailsActivity extends AppCompatActivity
         initUi();
 
         // Update the dictionary
-        if(!HomeActivity.PRESERVE_DICTIONARY) {
-            KanjiDictionary dict = KanjiDictionary.getInstance();
+        if(!AppDatabase.PRESERVE_DICTIONARY) {
+            // Get the searched scores from the activity intent
             float searchedComplexScore = getIntent().getFloatExtra("complex_score", -1f);
             float searchedSymmScore = getIntent().getFloatExtra("symm_score", -1f);
-            float searchedStrokeCurvScore = getIntent().getFloatExtra("strokeCurv_score", -1f);
-            float[] searchedScores = new float[] { searchedComplexScore, searchedSymmScore,
-                    searchedStrokeCurvScore };
-            dict.improveDictScores(searchedScores, kanjiData.kanji, 0.1f);
+            float searchedDiagScore = getIntent().getFloatExtra("diag_score", -1f);
+            float[] searchedScore = new float[] { searchedComplexScore, searchedSymmScore,
+                    searchedDiagScore };
+            // Create a task params object
+            FeedbackCalibrationParams params = new FeedbackCalibrationParams(searchedScore, kanjiData.character);
+            // Start a feedback calibration task
+            new FeedbackCalibrationTask().execute(params);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_favourites_toolbar, menu);
-        this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -60,6 +65,8 @@ public class KanjiDetailsActivity extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         if(favourited) {
             menu.getItem(0).setIcon(getDrawable(R.drawable.ic_star_filled));
+        } else {
+            menu.getItem(0).setIcon(getDrawable(R.drawable.ic_star_empty));
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -81,7 +88,8 @@ public class KanjiDetailsActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        KanjiDictionary.getInstance().changeFavourite(Character.toString(kanjiData.kanji), favourited, this);
+        UpdateFavouritedParams params = new UpdateFavouritedParams(kanjiData.character, (favourited ? 1 : 0));
+        new UpdateFavouritedTask().execute(params);
     }
 
     private void initUi() {
@@ -107,10 +115,10 @@ public class KanjiDetailsActivity extends AppCompatActivity
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
         // Display the kanji data in views
-        tvCharacter.setText(Character.toString(kanjiData.kanji));
-        tvMeanings.setText(TextUtils.join(", ", kanjiData.meanings));
-        tvKunReadings.setText(TextUtils.join(", ", kanjiData.kunReadings));
-        tvOnReadings.setText(TextUtils.join(", ", kanjiData.onReadings));
+        tvCharacter.setText(kanjiData.character.toString());
+        tvMeanings.setText(kanjiData.meanings);
+        tvKunReadings.setText(kanjiData.kunReadings);
+        tvOnReadings.setText(kanjiData.onReadings);
         tvNumStrokes.setText(String.format(Locale.UK, "%d", kanjiData.numStrokes));
         tvJlptLevel.setText(kanjiData.jlptLevel);
 
@@ -118,7 +126,7 @@ public class KanjiDetailsActivity extends AppCompatActivity
         tvJishoLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://jisho.org/search/" + kanjiData.kanji + "%20%23kanji"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://jisho.org/search/" + kanjiData.character + "%20%23kanji"));
                 if(intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }

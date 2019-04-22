@@ -6,20 +6,18 @@
     <string name="submit_phrases_button">Submit phrases</string>
 
     <!-- HomeActivity -->
-    <string name="sliderinput_toolbartitle">Search for a kanji</string>
-    <string name="sliderinput_complexity_min_value">simple</string>
-    <string name="sliderinput_complexity_max_value">complex</string>
-    <string name="sliderinput_symm_min_value">non-symmetrical</string>
-    <string name="sliderinput_symm_max_value">symmetrical</string>
-    <string name="sliderinput_curvy_min_value">straight lines</string>
-    <string name="sliderinput_curvy_max_value">curvy lines</string>
-    <string name="sliderinput_noresults">No results</string>
-    <string name="sliderinput_viewmorelink"><u>View more</u></string>
-    <string name="sliderinput_menuItem_calibrate">Calibrate search</string>
-    <string name="sliderinput_numresults">Showing %d result(s)</string>
-    <string name="sliderinput_tolerance">Search width</string>
-    <string name="sliderinput_fullscreenarrow">\u2191</string>
-    <string name="sliderinput_minimisearrow">\u2193</string>
+    <string name="home_toolbartitle">Search for a kanji</string>
+    <string name="home_complexity_min_value">simple</string>
+    <string name="home_complexity_max_value">complex</string>
+    <string name="home_symm_min_value">non-symmetrical</string>
+    <string name="home_symm_max_value">symmetrical</string>
+    <string name="home_curvy_min_value">straight lines</string>
+    <string name="home_curvy_max_value">curvy lines</string>
+    <string name="home_viewmorelink"><u>View more</u></string>
+    <string name="home_menuItem_calibrate">Calibrate search</string>
+    <string name="home_tolerance">Search width</string>
+    <string name="home_fullscreenarrow">\u2191</string>
+    <string name="home_minimisearrow">\u2193</string>
 
     <!-- KanjiDetailsActivity -->
     <string name="kanjiresults_toolbartitle">Details</string>
@@ -28,7 +26,7 @@
     <string name="kanjiresults_numStrokesLabel">Number of strokes</string>
     <string name="kanjiresults_jlptLevelLabel">JLPT Level</string>
     <string name="kanjiresults_valueLoading"><i>Loading...</i></string>
-    <string name="kanjiresults_jishoLink"><i>Example sentences, stroke ordering, etc. (opens browser)</i></string>
+    <string name="kanjiresults_jishoLink"><i><u>See more at Jisho.org</u></i></string>
 
     <!-- FavouritesActivity -->
     <string name="favourites_title">Your favourited kanji</string>
@@ -59,6 +57,10 @@
         目 scores zero on diagonality as all its lines are horizontal or vertical, whereas 父 scores
         the maximum.
     </string>
+
+    <!-- Global -->
+    <string name="all_noresults">No results</string>
+    <string name="all_numresults">Showing %d result(s)</string>
 
     <!-- Misc -->
     <string name="misc_csvPath">kanji.csv</string>

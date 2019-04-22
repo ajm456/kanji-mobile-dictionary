@@ -1,28 +1,23 @@
 package com.mobile.andrew.dissertationtest;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
-import com.mobile.andrew.dissertationtest.db.DatabaseContract;
-import com.mobile.andrew.dissertationtest.db.DatabaseHelper;
-import com.mobile.andrew.dissertationtest.db.KanjiData;
+import com.mobile.andrew.dissertationtest.asyncTasks.GetFavouritesParams;
+import com.mobile.andrew.dissertationtest.asyncTasks.GetFavouritesTask;
 
-import java.util.ArrayList;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-class FavouritesActivity extends AppCompatActivity
+public class FavouritesActivity extends AppCompatActivity
 {
-    private static final String TAG = FavouritesActivity.class.getSimpleName();
-
     private RecyclerView rvFavourites;
+    private TextView tvNumResults, tvNoResultsHint;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,56 +26,21 @@ class FavouritesActivity extends AppCompatActivity
 
         initUi();
 
+        KanjiListAdapter adapter = new KanjiListAdapter(this);
+        rvFavourites.setAdapter(adapter);
+
         // Get favourites list from the database
-        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
-        String[] projection = new String[] { DatabaseContract.COLUMN_NAME_CHARACTER,
-                DatabaseContract.COLUMN_NAME_MEANINGS, DatabaseContract.COLUMN_NAME_KUN,
-                DatabaseContract.COLUMN_NAME_ON, DatabaseContract.COLUMN_NAME_NUMSTROKES,
-                DatabaseContract.COLUMN_NAME_JLPT };
-        String selection = DatabaseContract.COLUMN_NAME_FAVOURITED + " = ?";
-        String[] selectionArgs = new String[] { "1" };
-
-        Cursor result = db.query(
-                DatabaseContract.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        Log.d(TAG, "Found " + result.getCount() + " favourites!");
-        ArrayList<KanjiData> favouritesData = new ArrayList<>(result.getCount());
-        while(result.moveToNext()) {
-            char kanji = result.getString(result.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_CHARACTER)).charAt(0);
-            String[] meanings = result.getString(result.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_MEANINGS)).split(", ");
-            String kunReadingsStr = result.getString(result.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_KUN));
-            String[] kunReadings;
-            if(kunReadingsStr != null) {
-                kunReadings = kunReadingsStr.split(",");
-            } else {
-                kunReadings = new String[] {};
-            }
-            String onReadingsStr = result.getString(result.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_ON));
-            String[] onReadings;
-            if(onReadingsStr != null) {
-                onReadings = onReadingsStr.split(",");
-            } else {
-                onReadings = new String[] {};
-            }
-            int numStrokes = result.getInt(result.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_NUMSTROKES));
-            String jlptLevel = result.getString(result.getColumnIndexOrThrow(DatabaseContract.COLUMN_NAME_JLPT));
-            favouritesData.add(new KanjiData(kanji, jlptLevel, meanings, kunReadings, onReadings, numStrokes, true));
-        }
-        result.close();
-
-        rvFavourites.setAdapter(new FavouritesAdapter(favouritesData));
+        GetFavouritesParams params = new GetFavouritesParams(adapter,
+                tvNumResults, tvNoResultsHint);
+        new GetFavouritesTask().execute(params);
     }
 
     private void initUi() {
         rvFavourites = findViewById(R.id.recyclerview_favourites);
         rvFavourites.setHasFixedSize(true);
         rvFavourites.setLayoutManager(new LinearLayoutManager(this));
+        tvNumResults = findViewById(R.id.text_favourites_numresults);
+        tvNoResultsHint = findViewById(R.id.text_favourites_noresultshint);
 
         Toolbar toolbar = findViewById(R.id.toolbar_favourites);
         toolbar.setTitle(R.string.favourites_title);
