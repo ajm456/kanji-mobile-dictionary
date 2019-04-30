@@ -3,8 +3,8 @@
 
     <item
         android:id="@+id/menuitem_favourites"
-        android:title="Favourites" />
+        android:title="@string/home_menuitem_favourites" />
     <item
         android:id="@+id/menuitem_calibrate"
-        android:title="Calibrate search" />
+        android:title="@string/home_menuitem_calibrate" />
 </menu>

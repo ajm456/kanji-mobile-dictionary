@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">DissertationTest</string>
-    <string name="home_heading">Search for a character</string>
-    <string name="kanji_search_hint">Enter a phrase…</string>
-    <string name="add_phrase_button">Add</string>
-    <string name="submit_phrases_button">Submit phrases</string>
 
     <!-- HomeActivity -->
     <string name="home_toolbartitle">Search for a kanji</string>
@@ -11,25 +7,29 @@
     <string name="home_complexity_max_value">complex</string>
     <string name="home_symm_min_value">non-symmetrical</string>
     <string name="home_symm_max_value">symmetrical</string>
-    <string name="home_curvy_min_value">straight lines</string>
-    <string name="home_curvy_max_value">curvy lines</string>
-    <string name="home_viewmorelink"><u>View more</u></string>
-    <string name="home_menuItem_calibrate">Calibrate search</string>
+    <string name="home_diag_min_value">non-diagonal lines</string>
+    <string name="home_diag_max_value">diagonal lines</string>
+    <string name="home_numresults">Showing %d result(s)</string>
+    <string name="home_noresults">No results</string>
+    <string name="home_menuitem_calibrate">Calibrate search</string>
+    <string name="home_menuitem_favourites">Favourites</string>
     <string name="home_tolerance">Search width</string>
     <string name="home_fullscreenarrow">\u2191</string>
     <string name="home_minimisearrow">\u2193</string>
 
     <!-- KanjiDetailsActivity -->
-    <string name="kanjiresults_toolbartitle">Details</string>
-    <string name="kanjiresults_kunReadingsLabel">Kun reading(s)</string>
-    <string name="kanjiresults_onReadingsLabel">On reading(s)</string>
-    <string name="kanjiresults_numStrokesLabel">Number of strokes</string>
-    <string name="kanjiresults_jlptLevelLabel">JLPT Level</string>
-    <string name="kanjiresults_valueLoading"><i>Loading...</i></string>
-    <string name="kanjiresults_jishoLink"><i><u>See more at Jisho.org</u></i></string>
+    <string name="kanjidetails_toolbartitle">Details</string>
+    <string name="kanjidetails_kunreadingslabel">Kun reading(s)</string>
+    <string name="kanjidetails_onreadingslabel">On reading(s)</string>
+    <string name="kanjidetails_numstrokeslabel">Number of strokes</string>
+    <string name="kanjidetails_jlptlevellabel">JLPT Level</string>
+    <string name="kanjidetails_valueloading"><i>Loading...</i></string>
+    <string name="kanjidetails_jisholink"><i><u>See more at Jisho.org</u></i></string>
+    <string name="kanjidetails_favouritebuttontitle">Add to/remove from favourites</string>
 
     <!-- FavouritesActivity -->
     <string name="favourites_title">Your favourited kanji</string>
+    <string name="favourites_nofavourites">No favourites added</string>
 
     <!-- CalibrationActivity -->
     <string name="calibrate_title">How would you describe this character?</string>
@@ -59,10 +59,9 @@
     </string>
 
     <!-- Global -->
-    <string name="all_noresults">No results</string>
-    <string name="all_numresults">Showing %d result(s)</string>
+    <string name="all_navigateupdescription">Navigate up</string>
+    <string name="all_snackbar_deletedtext">Item removed</string>
+    <string name="all_snackbar_undotext">UNDO</string>
 
     <!-- Misc -->
-    <string name="misc_csvPath">kanji.csv</string>
-    <string name="dictservice_description">Background service to save data for Kanji Dictionary app</string>
 </resources>

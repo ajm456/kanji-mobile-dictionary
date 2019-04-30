@@ -1,9 +1,12 @@
 package com.mobile.andrew.dissertationtest.asyncTasks;
 
+/**
+ * Wrapper data class for parameters passed to {@link UpdateFavouritedTask}.
+ */
 public class UpdateFavouritedParams
 {
-    String character;
-    int favourited;
+    final String character;
+    final int favourited; // 0 = false, 1 = true, -1 = unknown (read from the database)
 
     public UpdateFavouritedParams(String character, int favourited) {
         this.character = character;

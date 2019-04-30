@@ -6,12 +6,16 @@ import com.mobile.andrew.dissertationtest.KanjiListAdapter;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Wrapper data class for parameters passed to {@link SearchTask}.
+ */
 public class SearchParams
 {
-    float[] scores;
-    float tolerance;
-    KanjiListAdapter adapter;
-    WeakReference<TextView> tvNumResultsRef, tvNoResultsHintRef;
+    final float[] scores;
+    final float tolerance;
+    final KanjiListAdapter adapter;
+    final WeakReference<TextView> tvNumResultsRef;
+    final WeakReference<TextView> tvNoResultsHintRef;
 
     public SearchParams(float[] scores, float tolerance, KanjiListAdapter adapter,
                         TextView tvNumResults, TextView tvNoResultsHint) {

@@ -6,6 +6,11 @@ import android.content.Context;
 
 import com.mobile.andrew.dissertationtest.room.AppDatabase;
 
+/**
+ * An {@link Application} extension class providing a global app context object. Since the
+ * application context lasts for the entire lifecycle of the app, there is no danger of a memory
+ * leak.
+ */
 public class App extends Application
 {
     @SuppressLint("StaticFieldLeak")

@@ -36,6 +36,7 @@ public class DatabaseTest
     public void createDb() {
         // Create Room database
         Context context = ApplicationProvider.getApplicationContext();
+        // Use an in-memory database to isolate test from implementation
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
         kanjiDao = db.kanjiDao();
 

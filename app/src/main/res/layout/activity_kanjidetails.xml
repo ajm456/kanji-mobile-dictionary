@@ -20,7 +20,7 @@
         app:titleTextColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_character"
+        android:id="@+id/text_kanjidetails_character"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,7 +37,7 @@
         tools:text="万" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_translations"
+        android:id="@+id/text_kanjidetails_meanings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -46,37 +46,37 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:gravity="center_horizontal"
-        android:text="@string/kanjiresults_valueLoading"
+        android:text="@string/kanjidetails_valueloading"
         android:textSize="18sp"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kanjiDetails_tv_character"
+        app:layout_constraintTop_toBottomOf="@+id/text_kanjidetails_character"
         tools:text="ten thousand, 10,000" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/kanjiDetails_gl_charDetailsDiv"
+        android:id="@+id/guideline_kanjidetails_chardetailshorizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/kanjiDetails_gl_leftVertical"
+        android:id="@+id/guideline_kanjidetails_leftvertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/kanjiDetails_gl_rightVertical"
+        android:id="@+id/guidelines_kanjidetails_rightvertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.75" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_kunLabel"
+        android:id="@+id/text_kanjidetails_kunlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -85,15 +85,15 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
-        android:text="@string/kanjiresults_kunReadingsLabel"
+        android:text="@string/kanjidetails_kunreadingslabel"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/kanjiDetails_gl_leftVertical"
-        app:layout_constraintStart_toStartOf="@+id/kanjiDetails_gl_leftVertical"
-        app:layout_constraintTop_toTopOf="@+id/kanjiDetails_gl_charDetailsDiv" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_kanjidetails_leftvertical"
+        app:layout_constraintStart_toStartOf="@+id/guideline_kanjidetails_leftvertical"
+        app:layout_constraintTop_toTopOf="@+id/guideline_kanjidetails_chardetailshorizontal" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_kunVals"
+        android:id="@+id/text_kanjidetails_kunvals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -102,31 +102,30 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center"
-        android:text="@string/kanjiresults_valueLoading"
+        android:text="@string/kanjidetails_valueloading"
         android:textSize="18sp"
         app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@+id/kanjiDetails_gl_midVertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_kanjidetails_midvertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kanjiDetails_tv_kunLabel"
+        app:layout_constraintTop_toBottomOf="@+id/text_kanjidetails_kunlabel"
         tools:text="よろず" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_onLabel"
+        android:id="@+id/text_kanjidetails_onlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:gravity="center"
-        android:text="@string/kanjiresults_onReadingsLabel"
+        android:text="@string/kanjidetails_onreadingslabel"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/kanjiDetails_gl_rightVertical"
-        app:layout_constraintStart_toStartOf="@+id/kanjiDetails_gl_rightVertical"
-        app:layout_constraintTop_toTopOf="@+id/kanjiDetails_gl_charDetailsDiv" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelines_kanjidetails_rightvertical"
+        app:layout_constraintStart_toStartOf="@+id/guidelines_kanjidetails_rightvertical"
+        app:layout_constraintTop_toTopOf="@+id/guideline_kanjidetails_chardetailshorizontal" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_onVals"
+        android:id="@+id/text_kanjidetails_onvals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -135,15 +134,15 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center"
-        android:text="@string/kanjiresults_valueLoading"
+        android:text="@string/kanjidetails_valueloading"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/kanjiDetails_gl_midVertical"
-        app:layout_constraintTop_toBottomOf="@+id/kanjiDetails_tv_onLabel"
+        app:layout_constraintStart_toStartOf="@+id/guideline_kanjidetails_midvertical"
+        app:layout_constraintTop_toBottomOf="@+id/text_kanjidetails_onlabel"
         tools:text="マン、 バン" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_numStrokesLabel"
+        android:id="@+id/text_kanjidetails_strokeslabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -152,47 +151,44 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
-        android:text="@string/kanjiresults_numStrokesLabel"
+        android:text="@string/kanjidetails_numstrokeslabel"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/kanjiDetails_gl_leftVertical"
-        app:layout_constraintStart_toStartOf="@+id/kanjiDetails_gl_leftVertical"
-        app:layout_constraintTop_toBottomOf="@+id/kanjiDetails_tv_kunVals" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_kanjidetails_leftvertical"
+        app:layout_constraintStart_toStartOf="@+id/guideline_kanjidetails_leftvertical"
+        app:layout_constraintTop_toBottomOf="@+id/text_kanjidetails_kunvals" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_numStrokesVal"
+        android:id="@+id/text_kanjidetails_strokesval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="16dp"
         android:gravity="center"
-        android:text="@string/kanjiresults_valueLoading"
+        android:text="@string/kanjidetails_valueloading"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/kanjiDetails_gl_midVertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_kanjidetails_midvertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kanjiDetails_tv_numStrokesLabel"
+        app:layout_constraintTop_toBottomOf="@+id/text_kanjidetails_strokeslabel"
         tools:text="3" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_jlptLevelLabel"
+        android:id="@+id/text_kanjidetails_jlptlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:gravity="center"
-        android:text="@string/kanjiresults_jlptLevelLabel"
+        android:text="@string/kanjidetails_jlptlevellabel"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/kanjiDetails_gl_rightVertical"
-        app:layout_constraintStart_toStartOf="@+id/kanjiDetails_gl_rightVertical"
-        app:layout_constraintTop_toBottomOf="@+id/kanjiDetails_tv_onVals" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelines_kanjidetails_rightvertical"
+        app:layout_constraintStart_toStartOf="@+id/guidelines_kanjidetails_rightvertical"
+        app:layout_constraintTop_toBottomOf="@+id/text_kanjidetails_onvals" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_jlptLevelVal"
+        android:id="@+id/text_kanjidetails_jlptval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -201,21 +197,21 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center"
-        android:text="@string/kanjiresults_valueLoading"
+        android:text="@string/kanjidetails_valueloading"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/kanjiDetails_gl_midVertical"
-        app:layout_constraintTop_toBottomOf="@+id/kanjiDetails_tv_jlptLevelLabel"
+        app:layout_constraintStart_toStartOf="@+id/guideline_kanjidetails_midvertical"
+        app:layout_constraintTop_toBottomOf="@+id/text_kanjidetails_jlptlabel"
         tools:text="N5" />
 
     <TextView
-        android:id="@+id/kanjiDetails_tv_jishoLink"
+        android:id="@+id/text_kanjidetails_jisho"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:text="@string/kanjiresults_jishoLink"
+        android:text="@string/kanjidetails_jisholink"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
@@ -225,7 +221,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/kanjiDetails_gl_midVertical"
+        android:id="@+id/guideline_kanjidetails_midvertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

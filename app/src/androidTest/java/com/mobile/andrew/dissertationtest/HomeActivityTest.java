@@ -16,21 +16,27 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Objects;
+
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class HomeActivityTest
 {
     @Rule
-    public ActivityTestRule<HomeActivity> rule = new ActivityTestRule<>(HomeActivity.class);
+    public final ActivityTestRule<HomeActivity> rule = new ActivityTestRule<>(HomeActivity.class);
 
-    private Activity[] currentActivity = new Activity[1];
+    private final Activity[] currentActivity = new Activity[1];
 
     private void monitorCurrentActivity() {
         rule.getActivity().getApplication()
@@ -81,7 +87,7 @@ public class HomeActivityTest
         // Get the number of items in the adapter
         RecyclerView rv = rule.getActivity().findViewById(R.id.recycleview_home_results);
         KanjiListAdapter kanjiListAdapter = (KanjiListAdapter) rv.getAdapter();
-        int numItems = kanjiListAdapter.getItemCount();
+        int numItems = Objects.requireNonNull(kanjiListAdapter).getItemCount();
 
         // Test clicking on each one
         for(int i = 0; i < numItems; i++) {
@@ -96,11 +102,57 @@ public class HomeActivityTest
             onView((withId(R.id.root_kanjidetails))).check(matches(isDisplayed()));
 
             // Check that the correct kanji is being displayed
-            TextView tvCharacter = getCurrentActivity().findViewById(R.id.kanjiDetails_tv_character);
+            TextView tvCharacter = getCurrentActivity().findViewById(R.id.text_kanjidetails_character);
             assertEquals(tvCharacter.getText(), itemCharacter);
 
             // Navigate back to home activity
             pressBack();
         }
+    }
+
+    @Test
+    public void testNavigateToFavourites() {
+        // Try and navigate to favourites
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText(rule.getActivity().getString(R.string.home_menuitem_favourites)))
+                .perform(click());
+        // Check favourites view is displayed
+        onView(withId(R.id.root_favourites)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testNavigateToCalibration() {
+        // Try and navigate to calibration
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText(rule.getActivity().getString(R.string.home_menuitem_calibrate)))
+                .perform(click());
+        // Check calibration view is displayed
+        onView(withId(R.id.root_calibration)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testNoResultsHint() {
+        // Perform a search that will return no results
+        SeekBar sbComp = rule.getActivity().findViewById(R.id.seekbar_home_complexity);
+        SeekBar sbSymm = rule.getActivity().findViewById(R.id.seekbar_home_symm);
+        SeekBar sbDiag = rule.getActivity().findViewById(R.id.seekbar_home_diagonality);
+        SeekBar sbTolerance = rule.getActivity().findViewById(R.id.seekbar_home_searchtolerance);
+
+        sbComp.setProgress(sbComp.getMin());
+        sbSymm.setProgress(sbSymm.getMin());
+        sbDiag.setProgress(sbDiag.getMin());
+        sbTolerance.setProgress(sbTolerance.getMin());
+
+        // Check the no results hint is displayed
+        onView(withId(R.id.text_home_noresultshint)).check(matches(isDisplayed()));
+
+        // Perform a search that will return a result
+        sbComp.setProgress(sbComp.getMax() / 2);
+        sbSymm.setProgress(sbSymm.getMax() / 2);
+        sbDiag.setProgress(sbDiag.getMax() / 2);
+        sbTolerance.setProgress(sbTolerance.getMax());
+
+        // Check the no results hint is gone
+        onView(withId(R.id.text_home_noresultshint)).check(matches(not(isDisplayed())));
     }
 }

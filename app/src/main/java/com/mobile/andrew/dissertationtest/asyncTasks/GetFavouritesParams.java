@@ -6,15 +6,16 @@ import com.mobile.andrew.dissertationtest.KanjiListAdapter;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Wrapper data class for parameters passed to {@link GetFavouritesTask}.
+ */
 public class GetFavouritesParams
 {
-    KanjiListAdapter adapter;
-    WeakReference<TextView> tvNumResultsRef, tvNoResultsHintRef;
+    final KanjiListAdapter adapter;
+    final WeakReference<TextView> tvNoResultsHintRef;
 
-    public GetFavouritesParams(KanjiListAdapter adapter, TextView tvNumResults,
-                               TextView tvNoResultsHint) {
+    public GetFavouritesParams(KanjiListAdapter adapter, TextView tvNoResultsHint) {
         this.adapter = adapter;
-        tvNumResultsRef = new WeakReference<>(tvNumResults);
         tvNoResultsHintRef = new WeakReference<>(tvNoResultsHint);
     }
 }

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -47,7 +48,7 @@ public class SearchTest
 
         // This should return the characters [3, 4, 5, 6, 7]
         assertEquals(5, results.size());
-        assertThat(results, containsInAnyOrder(dummyData.subList(3, 8).toArray()));
+        assertThat(results, containsInAnyOrder(Objects.requireNonNull(dummyData.subList(3, 8).toArray())));
     }
 
     @Test
@@ -59,7 +60,7 @@ public class SearchTest
         // Since our search scores are in the middle of the range, a fifty percent tolerance should
         // return everything
         assertEquals(11, results.size());
-        assertThat(results, containsInAnyOrder(dummyData.toArray()));
+        assertThat(results, containsInAnyOrder(Objects.requireNonNull(dummyData.toArray())));
     }
 
     @Test
@@ -81,7 +82,7 @@ public class SearchTest
 
         // This should return the characters [8, 9, 10]
         assertEquals(3, results.size());
-        assertThat(results, containsInAnyOrder(dummyData.subList(8, 11).toArray()));
+        assertThat(results, containsInAnyOrder(Objects.requireNonNull(dummyData.subList(8, 11).toArray())));
     }
 
     @Test

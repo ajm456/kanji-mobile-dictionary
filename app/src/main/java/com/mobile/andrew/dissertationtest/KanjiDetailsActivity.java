@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +20,15 @@ import com.mobile.andrew.dissertationtest.room.AppDatabase;
 import com.mobile.andrew.dissertationtest.room.KanjiData;
 
 import java.util.Locale;
+import java.util.Objects;
 
+/**
+ * This activity displays all relevant information about a single kanji character. It also allows
+ * the user to add (or remove) the character from their favourites, to be displayed in
+ * {@link FavouritesActivity}.
+ */
 public class KanjiDetailsActivity extends AppCompatActivity
 {
-    private static final String TAG = KanjiDetailsActivity.class.getSimpleName();
-
     private KanjiData kanjiData;
     private boolean favourited;
 
@@ -63,6 +66,8 @@ public class KanjiDetailsActivity extends AppCompatActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        // Adjust the icon of the favourite star to match whether or not the character is currently
+        // favourited
         if(favourited) {
             menu.getItem(0).setIcon(getDrawable(R.drawable.ic_star_filled));
         } else {
@@ -73,6 +78,7 @@ public class KanjiDetailsActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // (Un)favourite the character when the favourite star button is clicked
         if(!favourited) {
             item.setIcon(getDrawable(R.drawable.ic_star_filled));
             favourited = true;
@@ -87,35 +93,36 @@ public class KanjiDetailsActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
+        // Update the current favourited value in the database for this character
         super.onPause();
         UpdateFavouritedParams params = new UpdateFavouritedParams(kanjiData.character, (favourited ? 1 : 0));
         new UpdateFavouritedTask().execute(params);
     }
 
+    /**
+     * Initialises and sets up the UI elements in this activity's layout.
+     */
     private void initUi() {
-        TextView tvCharacter = findViewById(R.id.kanjiDetails_tv_character);
-        TextView tvMeanings = findViewById(R.id.kanjiDetails_tv_translations);
-        TextView tvKunReadings = findViewById(R.id.kanjiDetails_tv_kunVals);
-        TextView tvOnReadings = findViewById(R.id.kanjiDetails_tv_onVals);
-        TextView tvNumStrokes = findViewById(R.id.kanjiDetails_tv_numStrokesVal);
-        TextView tvJlptLevel = findViewById(R.id.kanjiDetails_tv_jlptLevelVal);
-        TextView tvJishoLink = findViewById(R.id.kanjiDetails_tv_jishoLink);
+        TextView tvCharacter = findViewById(R.id.text_kanjidetails_character);
+        TextView tvMeanings = findViewById(R.id.text_kanjidetails_meanings);
+        TextView tvKunReadings = findViewById(R.id.text_kanjidetails_kunvals);
+        TextView tvOnReadings = findViewById(R.id.text_kanjidetails_onvals);
+        TextView tvNumStrokes = findViewById(R.id.text_kanjidetails_strokesval);
+        TextView tvJlptLevel = findViewById(R.id.text_kanjidetails_jlptval);
+        TextView tvJishoLink = findViewById(R.id.text_kanjidetails_jisho);
 
         Toolbar toolbar = findViewById(R.id.toolbar_kanjidetails);
-        toolbar.setTitle(R.string.kanjiresults_toolbartitle);
+        toolbar.setTitle(R.string.kanjidetails_toolbartitle);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishAfterTransition();
-            }
-        });
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeActionContentDescription(R.string.all_navigateupdescription);
+        toolbar.setNavigationOnClickListener(v -> finishAfterTransition());
+        //noinspection deprecation
+        Objects.requireNonNull(toolbar.getNavigationIcon()).setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
         // Display the kanji data in views
-        tvCharacter.setText(kanjiData.character.toString());
+        tvCharacter.setText(kanjiData.character);
         tvMeanings.setText(kanjiData.meanings);
         tvKunReadings.setText(kanjiData.kunReadings);
         tvOnReadings.setText(kanjiData.onReadings);
@@ -123,13 +130,10 @@ public class KanjiDetailsActivity extends AppCompatActivity
         tvJlptLevel.setText(kanjiData.jlptLevel);
 
         // Enable the link to Jisho's page on the character
-        tvJishoLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://jisho.org/search/" + kanjiData.character + "%20%23kanji"));
-                if(intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
+        tvJishoLink.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://jisho.org/search/" + kanjiData.character + "%20%23kanji"));
+            if(intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
             }
         });
     }

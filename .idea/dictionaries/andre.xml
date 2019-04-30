@@ -1,9 +1,76 @@
 <component name="ProjectDictionaryState">
   <dictionary name="andre">
     <words>
+      <w>backbuttonlabel</w>
+      <w>chardetailshorizontal</w>
+      <w>complexityhelp</w>
+      <w>complexitylabel</w>
+      <w>complexitymaxval</w>
+      <w>complexityminval</w>
+      <w>complexitytooltip</w>
+      <w>deletedtext</w>
+      <w>diag</w>
+      <w>diagmaxval</w>
+      <w>diagminval</w>
       <w>diagonality</w>
+      <w>diagonalityhelp</w>
+      <w>diagonalitylabel</w>
+      <w>diagonalitytooltip</w>
+      <w>dictservice</w>
+      <w>dissertationtest</w>
+      <w>doesn</w>
+      <w>favouritebutton</w>
+      <w>favouritebuttontitle</w>
+      <w>fullscreenarrow</w>
+      <w>jisho</w>
+      <w>jisholink</w>
+      <w>jlpt</w>
+      <w>jlptlabel</w>
+      <w>jlptlevellabel</w>
+      <w>jlptval</w>
       <w>kanji</w>
+      <w>kanjidetails</w>
+      <w>kanjiresults</w>
+      <w>kunlabel</w>
+      <w>kunreading</w>
+      <w>kunreadingslabel</w>
+      <w>kunvals</w>
+      <w>leftvertical</w>
+      <w>menuitem</w>
+      <w>midvertical</w>
+      <w>minimisearrow</w>
+      <w>navigateupdescription</w>
+      <w>nextbuttonlabel</w>
+      <w>nofavourites</w>
+      <w>noresults</w>
+      <w>noresultshint</w>
+      <w>numresults</w>
+      <w>numstrokeslabel</w>
+      <w>onlabel</w>
+      <w>onreadingslabel</w>
+      <w>onvals</w>
+      <w>recycleview</w>
+      <w>resultitem</w>
+      <w>resultssize</w>
+      <w>rightvertical</w>
+      <w>searchtolerance</w>
+      <w>seekbar</w>
+      <w>snackbar</w>
+      <w>strokecurv</w>
+      <w>strokeslabel</w>
+      <w>strokesval</w>
+      <w>symm</w>
       <w>symmetricity</w>
+      <w>symmetricityhelp</w>
+      <w>symmetricitylabel</w>
+      <w>symmetricitytooltip</w>
+      <w>symmmaxval</w>
+      <w>symmminval</w>
+      <w>tolerancelabel</w>
+      <w>toolbartitle</w>
+      <w>undotext</w>
+      <w>valueloading</w>
+      <w>viewmorelink</w>
     </words>
   </dictionary>
 </component>
